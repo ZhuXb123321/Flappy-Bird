@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PipelineManager : MonoBehaviour
+public class PipelineManager : UnitySinglegon<PipelineManager>
 {
     public GameObject template;
+    private List<GameObject> templates = new List<GameObject>();
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        template = Resources.Load<GameObject>("Prefebs/"+"pipeline");
     }
 
     // Update is called once per frame
@@ -27,20 +28,29 @@ public class PipelineManager : MonoBehaviour
     public void Stop()
     {
         StopCoroutine(coroutine);
+        for (int i = 0; i < templates.Count; i++)
+        {
+            Destroy(templates[i]);
+        }
+        templates.Clear();
     }
 
     IEnumerator GeneratePipelines()
     {
-        while (true)
+        for(int i=0;i<2;i++)
         {
             GeneratePipeline();
-
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
         }
     }
 
     void GeneratePipeline()
     {
-        Instantiate(template,this.gameObject.transform);
+        if (templates.Count<2)
+        {
+            GameObject tem = Instantiate(template, this.gameObject.transform);
+            GameTool.AddComponent<Pipeline>(template);
+            templates.Add(tem);
+        }  
     }
 }
