@@ -40,7 +40,7 @@ public class PipelineManager : UnitySinglegon<PipelineManager>
         for(int i=0;i<2;i++)
         {
             GeneratePipeline();
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(4f);
         }
     }
 

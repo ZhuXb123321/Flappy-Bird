@@ -17,9 +17,8 @@ public class Pipeline : MonoBehaviour
     {
         this.gameObject.transform.position += new Vector3(-1, 0,0)*Time.deltaTime*speed;
         timer += Time.deltaTime;
-        if (timer>=6f)
+        if (timer>=7f)
         {
-            Debug.Log("111");
             Init();
             timer = 0f;
         }

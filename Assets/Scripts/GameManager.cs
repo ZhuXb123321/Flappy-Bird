@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum GAME_STATUS
-{
-    Ready,
-    Start,
-    Over
-}
 public class GameManager : UnitySinglegon<GameManager>
 {
     public  GAME_STATUS status;
@@ -24,7 +18,7 @@ public class GameManager : UnitySinglegon<GameManager>
     // Update is called once per frame
     void Update()
     {
- 
+
     }
 
     public void GameReady()
@@ -41,6 +35,7 @@ public class GameManager : UnitySinglegon<GameManager>
         status = GAME_STATUS.Start;
         UIManager.Instance.UpdateUI(status);
         PipelineManager.Instance.StartRun();
+        UnitManager.Instance.StartRun();
     }
 
     public void GameOver()
@@ -48,5 +43,6 @@ public class GameManager : UnitySinglegon<GameManager>
         UIManager.Instance.UpdateUI(status);
         UIManager.Instance.ScoreInOver();
         PipelineManager.Instance.Stop();
+        UnitManager.Instance.Stop();
     }
 }

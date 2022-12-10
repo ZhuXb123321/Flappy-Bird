@@ -12,6 +12,7 @@ public class UIManager : UnitySinglegon<UIManager>
     public Text scoreStart;
     public Text scoreOver;
     public Text bestOver;
+    public Slider healthSlider;
     // Start is called before the first frame update
 
     public void UpdateUI(GAME_STATUS state)
@@ -42,5 +43,17 @@ public class UIManager : UnitySinglegon<UIManager>
     public void ScoreInit()
     {
         scoreStart.text = score.ToString();
+    }
+
+    public void InitHealth(int maxHp, int currentHp)
+    {
+        healthSlider.maxValue = maxHp;
+        currentHp = maxHp;
+        healthSlider.value = currentHp;
+    }
+
+    public void HealthUpdate(int currentHp)
+    {
+        healthSlider.value = Mathf.Lerp(healthSlider.value, currentHp, 1f);
     }
 }
