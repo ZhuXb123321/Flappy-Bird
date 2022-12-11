@@ -110,19 +110,25 @@ public class Player : MonoBehaviour
             UIManager.Instance.ScoreInGame(1);
         }
         Bullet bullets = collision.GetComponent<Bullet>();
-        if (bullets!=null)
+        Enemy enemys = collision.GetComponent<Enemy>();
+        if (bullets!=null&&enemys!=null)
         {
-            if (bullets.side == SIDE.Enemy)
+            return;
+        }
+        if ((bullets!=null&&bullets.side == SIDE.Enemy)||enemys!=null)
+        {
+            UIManager.Instance.HealthUpdate(currentHp -= 10);
+            if (bullets != null)
             {
-                UIManager.Instance.HealthUpdate(currentHp-=10);
-                if (currentHp<=0)
-                {
-                    Death();
-                }
+                Destroy(bullets.gameObject);
+            }
+            if (currentHp <= 0)
+            {
+                Death();
             }
         }
 
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

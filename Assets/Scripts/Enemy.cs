@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     public Transform bulletTrans;
     public GameObject bullet;
     private float bulletTimer = 0f;
+    public ENEMY_STATUS eNEMY_STATUS;
+    private float y=0;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -21,6 +23,8 @@ public class Enemy : MonoBehaviour
         playerInit = this.transform.position;
         rb = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
+        y = Random.Range(-3, 4);
+        this.transform.localPosition = new Vector3(10, y, 0);
     }
 
     private void Start()
@@ -44,7 +48,16 @@ public class Enemy : MonoBehaviour
     //Îä×°Ð¡ÄñÒÆ¶¯
     void Move()
     {
-        transform.position += new Vector3(-1, 0, 0) * Time.deltaTime * speed;
+        float sin_Y=0;
+        if (eNEMY_STATUS==ENEMY_STATUS.Float_Enemy)
+        {
+            sin_Y = Mathf.Sin(Time.timeSinceLevelLoad*2);
+        }
+        if (eNEMY_STATUS == ENEMY_STATUS.Rapid_Enemy)
+        {
+            speed = 8f;
+        }
+        this.transform.position = new Vector3(this.transform.position.x- Time.deltaTime * speed, y+ sin_Y, 0);
     }
 
     void Fire()

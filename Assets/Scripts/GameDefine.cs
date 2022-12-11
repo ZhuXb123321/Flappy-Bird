@@ -14,6 +14,12 @@ public enum SIDE
     Player,
     Enemy
 }
+public enum ENEMY_STATUS
+{
+    Normal_Enemy,
+    Float_Enemy,
+    Rapid_Enemy
+}
 public class GameDefine
 {
     
