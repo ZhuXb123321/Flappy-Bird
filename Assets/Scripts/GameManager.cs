@@ -7,7 +7,10 @@ public class GameManager : UnitySinglegon<GameManager>
 {
     public  GAME_STATUS status;
     public Action action;
+    public LevelManager levelManager;
+    public int currentLevelId = 1;
 
+    
     // Start is called before the first frame update
     private void Awake()
     {
@@ -35,7 +38,9 @@ public class GameManager : UnitySinglegon<GameManager>
         status = GAME_STATUS.Start;
         UIManager.Instance.UpdateUI(status);
         PipelineManager.Instance.StartRun();
-        UnitManager.Instance.StartRun();
+        //UnitManager.Instance.StartRun();
+        //关卡一生成
+        LevelManager.Instance.LoadLevel(this.currentLevelId);
     }
 
     public void GameOver()
@@ -43,6 +48,6 @@ public class GameManager : UnitySinglegon<GameManager>
         UIManager.Instance.UpdateUI(status);
         UIManager.Instance.ScoreInOver();
         PipelineManager.Instance.Stop();
-        UnitManager.Instance.Stop();
+        //UnitManager.Instance.Stop();
     }
 }

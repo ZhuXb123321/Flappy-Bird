@@ -10,14 +10,16 @@ public class UnitManager :UnitySinglegon<UnitManager>
 
     private GameObject rapid_Enemy;
 
+    private GameObject boss_Enemy;
+
     public Transform enemysTrans;
 
     public List<GameObject> enemys = new List<GameObject>();
 
     #region 敌人生成速度
-    private float normal_Speed = 1f;
-    private float float_Speed = 3f;
-    private float rapid_Speed = 5f;
+    private float normal_Speed = 2f;
+    private float float_Speed = 4f;
+    private float rapid_Speed = 7f;
     private float normal_Speed_Timer = 0f;
     private float float_Speed_Timer = 0f;
     private float rapid_Speed_Timer = 0f;
@@ -27,6 +29,7 @@ public class UnitManager :UnitySinglegon<UnitManager>
         normal_Enemy = Resources.Load<GameObject>("Prefebs/" + "enemy");
         float_Enemy = Resources.Load<GameObject>("Prefebs/" + "enemy2");
         rapid_Enemy = Resources.Load<GameObject>("Prefebs/" + "enemy3");
+        boss_Enemy = Resources.Load<GameObject>("Prefebs/" + "enemyBoss");
     }
     void Start()
     {
@@ -82,10 +85,11 @@ public class UnitManager :UnitySinglegon<UnitManager>
         }
     }
 
-    void GenerateEnemy(GameObject enemy)
+    public Enemy GenerateEnemy(GameObject enemy)
     {
         GameObject enemyNew = Instantiate(enemy, enemysTrans);
         GameTool.AddComponent<Enemy>(enemyNew);
-        enemys.Add(enemyNew);
+        //enemys.Add(enemyNew);
+        return enemyNew.GetComponent<Enemy>();
     }
 }

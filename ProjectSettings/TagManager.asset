@@ -48,3 +48,6 @@ TagManager:
   - name: Player
     uniqueID: 3326561179
     locked: 0
+  - name: Launchpanel
+    uniqueID: 3393131317
+    locked: 0

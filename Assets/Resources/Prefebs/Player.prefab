@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2149520157332148825}
   - component: {fileID: 2149520157332148830}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: wing_f
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2149520157634636837}
   - component: {fileID: 2149520157634636858}
   - component: {fileID: 2149520157634636859}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,9 +172,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e571e5b705a485d46bb57308055639b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  speed: 5
   bulletTrans: {fileID: 0}
   bullet: {fileID: 0}
+  currentHp: 0
 --- !u!70 &2149520157634636859
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -201,7 +202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2149520157983222201}
   - component: {fileID: 2149520157983222206}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +283,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2149520158263235210}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: bulletTrans
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2149520158265337828}
   - component: {fileID: 2149520158265337829}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: wing_n
   m_TagString: Untagged
   m_Icon: {fileID: 0}

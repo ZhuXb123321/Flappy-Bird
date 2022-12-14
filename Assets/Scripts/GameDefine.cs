@@ -18,7 +18,8 @@ public enum ENEMY_STATUS
 {
     Normal_Enemy,
     Float_Enemy,
-    Rapid_Enemy
+    Rapid_Enemy,
+    Boss_Enemy
 }
 public class GameDefine
 {

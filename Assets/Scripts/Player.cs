@@ -2,42 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Unit
 {
-    private Rigidbody2D rb;
-    private Animator ani;
-    private bool die;
-    private Vector3 playerInit;
-    public float speed = 3f;
-    public Transform bulletTrans;
-    public GameObject bullet;
-    private float bulletTimer = 0f;
-    public int currentHp; //当前血量
-    private int MaxHp =100; //最大血量
     // Start is called before the first frame update
-    private void Awake()
+    protected override void InitElementOnAwake()
     {
-        bullet = Resources.Load<GameObject>("Prefebs/"+"bullet");
+        bullet = Resources.Load<GameObject>("Prefebs/" + "bullet");
         bulletTrans = transform.Find("bulletTrans");
         playerInit = this.transform.position;
         rb = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
+        MaxHp = 100;
     }
 
-    private void Start()
+    protected override void InitDataOnAwake()
     {
-        InitPlater();
+        Bullet bullets = bullet.GetComponent<Bullet>();
+        bullets.power = 1;
+        currentHp = MaxHp;
+        die = false;
+        this.transform.position = playerInit;
+        ani.SetBool("death", false);
+        ani.SetBool("fall", false);
+        UIManager.Instance.InitHealth(MaxHp, currentHp);
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
-        GameManager.Instance.action = InitPlater;
+        GameManager.Instance.action = InitDataOnAwake;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        if (GameManager.Instance.status==GAME_STATUS.Start&&die==false)
+        if (GameManager.Instance.status == GAME_STATUS.Start && die == false)
         {
             //rb.simulated = true;
             //Fly();
@@ -45,7 +43,6 @@ public class Player : MonoBehaviour
             Fire();
         }
     }
-
     //第一关移动
     void Fly()
     {
@@ -62,7 +59,7 @@ public class Player : MonoBehaviour
         }
     }
     //武装小鸟移动
-    void Move()
+    protected override void Move()
     {
         ani.SetBool("move", true);
         float h = Input.GetAxis("Horizontal");
@@ -70,12 +67,12 @@ public class Player : MonoBehaviour
         transform.position += new Vector3(h, v, 0) * Time.deltaTime * speed;
     }
 
-    void Fire()
+    protected override void Fire()
     {
         bulletTimer += Time.deltaTime;
         if (Input.GetMouseButton(0))
         {
-            if (bulletTimer>0.2f)
+            if (bulletTimer > 0.2f)
             {
                 Instantiate(bullet, bulletTrans.position, Quaternion.identity);
                 bulletTimer = 0;
@@ -83,18 +80,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void InitPlater()
-    {
-        currentHp = MaxHp;
-        //rb.simulated = false;
-        die = false;
-        this.transform.position = playerInit;
-        ani.SetBool("death", false);
-        ani.SetBool("fall", false);
-        UIManager.Instance.InitHealth(MaxHp, currentHp);
-    }
-
-    void Death()
+    protected override void Death()
     {
         die = true;
         ani.SetBool("death", true);
@@ -115,13 +101,18 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        if ((bullets!=null&&bullets.side == SIDE.Enemy)||enemys!=null)
+        if (bullets!=null&&bullets.side == SIDE.Enemy)
         {
-            UIManager.Instance.HealthUpdate(currentHp -= 10);
-            if (bullets != null)
+            UIManager.Instance.HealthUpdate(currentHp -= bullets.power);
+            Destroy(bullets.gameObject);
+            if (currentHp <= 0)
             {
-                Destroy(bullets.gameObject);
+                Death();
             }
+        }
+        if (enemys != null)
+        {
+            UIManager.Instance.HealthUpdate(currentHp-=enemys.power);
             if (currentHp <= 0)
             {
                 Death();
