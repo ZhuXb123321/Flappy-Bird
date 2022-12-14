@@ -43,9 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8a281581f21f74f92d0f6881764386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Monster: {fileID: 4533038974954707823, guid: 3181899e1503816449ac03c06a505083, type: 3}
+  Monster: {fileID: 4533038974954707823, guid: 0bb42dcaeba6f3742a25a2d733b5c692, type: 3}
   InitTime: 5
   Period: 5
-  MaxNum: 10
+  MaxNum: 15
   MaxHp: 1
-  Attack: 2
+  Attack: 1

@@ -43,8 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aef177997ab9dd44f8546362b69a3f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelID: 1001
+  LevelID: 1
   Name: Frist Blood
+  lEVEL_STATUS: 0
   Boss: {fileID: -5182195952616612127, guid: 4788fb0dc87553e4e9f8f72b73073e84, type: 3}
   Rules:
   - {fileID: 1127770003402956389, guid: 7dc6df29d45e68e4ca924074a9f5643a, type: 3}

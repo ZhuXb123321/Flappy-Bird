@@ -39,8 +39,28 @@ public class GameManager : UnitySinglegon<GameManager>
         UIManager.Instance.UpdateUI(status);
         PipelineManager.Instance.StartRun();
         //UnitManager.Instance.StartRun();
+        GenerateLevel();
+    }
+
+    private void GenerateLevel()
+    {
         //关卡一生成
         LevelManager.Instance.LoadLevel(this.currentLevelId);
+        LevelManager.Instance.level.gameEnd = GameEnd;
+        UIManager.Instance.LevelName.text = LevelManager.Instance.level.Name;
+    }
+
+    private void GameEnd(LEVEL_STATUS lEVEL_STATUS)
+    {
+        if (lEVEL_STATUS==LEVEL_STATUS.Success)
+        {
+            this.currentLevelId += 1;
+            GenerateLevel();
+        }
+        else
+        {
+            this.status = GAME_STATUS.Over;
+        }
     }
 
     public void GameOver()

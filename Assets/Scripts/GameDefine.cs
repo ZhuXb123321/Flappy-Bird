@@ -21,6 +21,13 @@ public enum ENEMY_STATUS
     Rapid_Enemy,
     Boss_Enemy
 }
+
+public enum LEVEL_STATUS
+{
+    Null,
+    Fail,
+    Success
+}
 public class GameDefine
 {
     

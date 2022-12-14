@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,20 +25,22 @@ public class Boss : Enemy
 
     private float UlkCD = 0f;
 
+    public event Action death;
+
     protected override void InitElementOnAwake()
     {
+        MaxHp = 20;
         base.InitElementOnAwake();
     }
+
     protected override void InitDataOnAwake()
     {
+        currentHp = MaxHp;
         bullet = Resources.Load<GameObject>("Prefebs/" + "bulletEnemy");
         cannon = Resources.Load<GameObject>("Prefebs/" + "bulletBoss");
         target = GameObject.Find("Player").gameObject.transform;
     }
-    protected override void Death()
-    {
-        
-    }
+ 
     protected override void Update()
     {
         Vector3 pos = (target.position - battery.transform.position).normalized;
@@ -142,5 +145,24 @@ public class Boss : Enemy
     protected override void Move()
     {
         
+    }
+    protected override void Death()
+    {
+        die = true;
+        Destroy(this.gameObject);
+        death?.Invoke();
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Bullet bullets = collision.GetComponent<Bullet>();
+        if (bullets != null && bullets.side == SIDE.Player)
+        {
+            currentHp -= bullets.power;
+            Destroy(bullets.gameObject);
+            if (currentHp<=0)
+            {
+                Death();
+            }
+        }
     }
 }

@@ -38,8 +38,14 @@ public class SpawnRule : MonoBehaviour
             {
                 Enemy enemy = UnitManager.Instance.GenerateEnemy(Monster.gameObject);
                 num++;
-                enemy.power = Attack;
-                enemy.MaxHp = MaxHp;
+                if (enemy.power==0)
+                {
+                    enemy.power = Attack;
+                }                
+                if (enemy.MaxHp==0)
+                {
+                    enemy.MaxHp = MaxHp;
+                }
                 timer = 0;
             }
         }

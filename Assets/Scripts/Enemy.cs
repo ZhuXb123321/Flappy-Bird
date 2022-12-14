@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : Unit
 {
     public ENEMY_STATUS eNEMY_STATUS;
+    Bullet bullets = null;
     public float deathTime=7f;
     private float y=0;
     // Start is called before the first frame update
@@ -12,6 +13,7 @@ public class Enemy : Unit
     {
         bulletTrans = transform.Find("bulletTrans");
         bullet = Resources.Load<GameObject>("Prefebs/" + "bulletEnemy");
+        bullets = bullet.GetComponent<Bullet>();
         rb = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
     }
@@ -29,9 +31,14 @@ public class Enemy : Unit
         {
             Move();
             Fire();
-            Bullet bullets = bullet.GetComponent<Bullet>();
-            bullets.power = power;
-            currentHp = MaxHp;
+            if (currentHp==0)
+            {
+                currentHp = MaxHp;
+            }
+            if (bullets.power==0)
+            {
+                bullets.power = power;
+            }
         }
     }
     //Îä×°Ð¡ÄñÒÆ¶¯
@@ -63,7 +70,6 @@ public class Enemy : Unit
     {
         die = true;
         Destroy(this.gameObject);
-        UnitManager.Instance.enemys.Remove(this.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -12,6 +12,7 @@ public class UIManager : UnitySinglegon<UIManager>
     public Text scoreStart;
     public Text scoreOver;
     public Text bestOver;
+    public Text LevelName;
     public Slider healthSlider;
     // Start is called before the first frame update
 
