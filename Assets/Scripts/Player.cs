@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Player : Unit
 {
+    private int life;
+    float timer = 0;
+    float InvincibleTime = 1f;
+    public bool IsInvincible
+    {
+        get { return timer < this.InvincibleTime; }
+    }
     // Start is called before the first frame update
     protected override void InitElementOnAwake()
     {
@@ -12,19 +19,31 @@ public class Player : Unit
         playerInit = this.transform.position;
         rb = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
-        MaxHp = 100;
+        MaxHp = 10;
     }
 
     protected override void InitDataOnAwake()
     {
         Bullet bullets = bullet.GetComponent<Bullet>();
         bullets.power = 1;
-        currentHp = MaxHp;
         die = false;
+        currentHp = MaxHp;
+        life = 1;
         this.transform.position = playerInit;
         ani.SetBool("death", false);
         ani.SetBool("fall", false);
         UIManager.Instance.InitHealth(MaxHp, currentHp);
+        UIManager.Instance.HealthNum(life);
+    }
+
+    public void Resurrected()
+    {
+        life--;
+        currentHp = MaxHp;
+        timer = 0;
+        UIManager.Instance.HealthNum(life);
+        UIManager.Instance.InitHealth(MaxHp, currentHp);
+        this.transform.position = playerInit;
     }
 
     protected override void OnEnable()
@@ -39,6 +58,7 @@ public class Player : Unit
         {
             //rb.simulated = true;
             //Fly();
+            timer += Time.deltaTime;
             Move();
             Fire();
         }
@@ -82,15 +102,27 @@ public class Player : Unit
 
     protected override void Death()
     {
-        die = true;
-        ani.SetBool("death", true);
-        ani.SetBool("move", false);
-        GameManager.Instance.status = GAME_STATUS.Over;
-        GameManager.Instance.GameOver();
+        Resurrected();
+        if (life <= 0)
+        {
+            die = true;
+            ani.SetBool("death", true);
+            ani.SetBool("move", false);
+            GameManager.Instance.status = GAME_STATUS.Over;
+            GameManager.Instance.GameOver();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (this.currentHp<=0)
+        {
+            return;
+        }
+        if (IsInvincible)
+        {
+            return;
+        }
         if (collision.tag == "Score")
         {
             UIManager.Instance.ScoreInGame(1);

@@ -10,11 +10,79 @@ public class UIManager : UnitySinglegon<UIManager>
     public GameObject gameOver;
     public int score = 0;
     public Text scoreStart;
+    public Text BestText1;
+    public Text BestText2;
+    public Text BestText3;
     public Text scoreOver;
-    public Text bestOver;
-    public Text LevelName;
+    public Text levelName;
+    public Text healthNum;
     public Slider healthSlider;
-    // Start is called before the first frame update
+    private string NO1 = "No1";
+    private string NO2 = "No2";
+    private string NO3 = "No3";
+    public List<int> rangking;
+
+    public void InitRank()
+    {
+        rangking = new List<int>();
+        rangking.Add(PlayerPrefs.GetInt(NO1));
+        rangking.Add(PlayerPrefs.GetInt(NO2));
+        rangking.Add(PlayerPrefs.GetInt(NO3));
+        //rangking.Sort();
+    }
+
+    private void LoadData()
+    {
+        for (int i = 0; i < rangking.Count; i++)
+        {
+            rangking[i] = PlayerPrefs.GetInt("No" + (i + 1));
+        }
+        scoreOver.text = score.ToString();
+        BestText1.text = rangking[0].ToString();
+        BestText2.text = rangking[1].ToString();
+        BestText3.text = rangking[2].ToString();
+    }
+
+    public void SaveData()
+    {
+        LoadData();
+        for (int i = 0; i < rangking.Count; i++)
+        {
+            int No2, No3;
+            if (score > rangking[i])
+            {
+                if (i == 0)
+                {
+                    No2 = rangking[i];
+                    No3 = rangking[i + 1];
+                    rangking[i] = score;
+                    rangking[i + 1] = No2;
+                    rangking[i + 2] = No3;
+                    PlayerPrefs.SetInt(NO1, score);
+                    PlayerPrefs.SetInt(NO2, rangking[i + 1]);
+                    PlayerPrefs.SetInt(NO3, rangking[i + 2]);
+                    LoadData();
+                    return;
+                }
+                if (i == 1)
+                {
+                    No3 = rangking[i];
+                    rangking[i] = score;
+                    rangking[i + 1] = No3;
+                    PlayerPrefs.SetInt(NO2, score);
+                    PlayerPrefs.SetInt(NO3, rangking[i + 1]);
+                    LoadData();
+                    return;
+                }
+                if (i == 2)
+                {
+                    rangking[i] = score;
+                    PlayerPrefs.SetInt(NO3, score);
+                    LoadData();
+                }
+            }
+        }
+    }
 
     public void UpdateUI(GAME_STATUS state)
     {
@@ -38,7 +106,7 @@ public class UIManager : UnitySinglegon<UIManager>
         }
         scorePres = PlayerPrefs.GetInt("score");
         scoreOver.text = score.ToString();
-        bestOver.text = scorePres.ToString();
+        BestText2.text = scorePres.ToString();
     }
 
     public void ScoreInit()
@@ -56,5 +124,10 @@ public class UIManager : UnitySinglegon<UIManager>
     public void HealthUpdate(int currentHp)
     {
         healthSlider.value = Mathf.Lerp(healthSlider.value, currentHp, 1f);
+    }
+
+    public void HealthNum(int life)
+    {
+        healthNum.text = "Health " + life;
     }
 }

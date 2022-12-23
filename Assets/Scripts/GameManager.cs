@@ -37,17 +37,17 @@ public class GameManager : UnitySinglegon<GameManager>
     {
         status = GAME_STATUS.Start;
         UIManager.Instance.UpdateUI(status);
+        UIManager.Instance.InitRank();
         PipelineManager.Instance.StartRun();
-        //UnitManager.Instance.StartRun();
         GenerateLevel();
     }
 
     private void GenerateLevel()
     {
-        //关卡一生成
+        //关卡生成
         LevelManager.Instance.LoadLevel(this.currentLevelId);
         LevelManager.Instance.level.gameEnd = GameEnd;
-        UIManager.Instance.LevelName.text = LevelManager.Instance.level.Name;
+        UIManager.Instance.levelName.text = LevelManager.Instance.level.Name;
     }
 
     private void GameEnd(LEVEL_STATUS lEVEL_STATUS)
@@ -66,8 +66,7 @@ public class GameManager : UnitySinglegon<GameManager>
     public void GameOver()
     {
         UIManager.Instance.UpdateUI(status);
-        UIManager.Instance.ScoreInOver();
+        UIManager.Instance.SaveData();
         PipelineManager.Instance.Stop();
-        //UnitManager.Instance.Stop();
     }
 }
